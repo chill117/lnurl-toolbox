@@ -1,0 +1,7 @@
+build/
+public/
+node_modules/
+config.json
+tls.cert
+tls.key
+*.sock

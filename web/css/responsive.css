@@ -1,0 +1,5 @@
+@media screen and (max-height: 32rem) {
+	#toolbox {
+		align-items: baseline;
+	}
+}
