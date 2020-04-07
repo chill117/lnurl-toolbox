@@ -27,6 +27,10 @@
     "email": "chill@degreesofzero.com"
   },
   "license": "MIT",
+  "funding": {
+    "type": "individual",
+    "url": "https://degreesofzero.com/donate.html?project=lnurl-toolbox"
+  },
   "bugs": {
     "url": "https://github.com/chill117/lnurl-toolbox/issues"
   },
