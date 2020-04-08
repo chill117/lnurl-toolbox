@@ -3,3 +3,88 @@
 		align-items: baseline;
 	}
 }
+
+@media screen and (max-width: 1024px) {
+	html, body {
+		max-height: initial;
+	}
+	.wrap {
+		padding: 0 .5rem;
+	}
+	#header,
+	#footer {
+		position: relative;
+		left: initial;
+		top: initial;
+		z-index: initial;
+		height: auto;
+	}
+	#header {
+		padding: 1rem 0;
+	}
+	#header h1 {
+		font-size: 1.4rem;
+		line-height: 1.8rem;
+		margin-bottom: .5rem;
+	}
+	#header p {
+		font-size: .9rem;
+		line-height: 1.2rem;
+	}
+	#content {
+		overflow: auto;
+		padding: 0;
+	}
+	#toolbox {
+		height: auto;
+	}
+	#footer {
+		font-size: .8rem;
+		line-height: 2.2rem;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+	#toolbox .tool {
+		width: 50%;
+		margin-top: 2rem;
+	}
+	#toolbox .tool {
+		margin-top: 2rem;
+	}
+	#toolbox .tool:nth-child(1),
+	#toolbox .tool:nth-child(2) {
+		margin-top: 1rem;
+	}
+	#toolbox .qrcode {
+		max-width: 300px;
+	}
+	#toolbox .extra-info {
+		font-size: .8rem;
+		line-height: 1.1rem;
+	}
+}
+
+@media screen and (max-width: 540px) {
+	#footer .links:first-child,
+	#footer .links:last-child {
+		float: none;
+		width: 100%;
+		text-align: center;
+	}
+	#toolbox .tool {
+		float: none;
+		width: 100%;
+	}
+	#toolbox .tool:nth-child(1),
+	#toolbox .tool:nth-child(2) {
+		margin-top: 2rem;
+	}
+	#toolbox .extra-info {
+		box-sizing: border-box;
+		padding: 0 .5rem;
+	}
+	#footer {
+		line-height: 1.5rem;
+		padding: .4rem 0
+	}
+}

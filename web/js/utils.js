@@ -4,6 +4,7 @@ app.utils = (function() {
 
 	var renderQrCode = function($target, data, done) {
 		// https://github.com/soldair/node-qrcode#usage
+		console.log('renderQrCode', $target.width())
 		var options = {
 			width: $target.width(),
 			margin: 1,
@@ -14,7 +15,10 @@ app.utils = (function() {
 		QRCode.toDataURL(data, options, function(error, dataUri) {
 			if (error) return done(error);
 			window.requestAnimationFrame(function() {
-				$target.css('background-image', 'url(' + dataUri + ')');
+				$target.css({
+					'background-image': 'url(' + dataUri + ')',
+					'background-size': options.width + 'px',
+				});
 				done();
 			});
 		});

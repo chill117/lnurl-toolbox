@@ -96,12 +96,13 @@ h4, h5, h6 { font-size: 1rem; line-height: 1.3rem; }
 }
 #footer .links {
 	float: left;
-	width: 50%;
 }
 #footer .links:first-child {
+	width: 35%;
 	text-align: left;
 }
 #footer .links:last-child {
+	width: 65%;
 	text-align: right;
 }
 #message {
@@ -159,7 +160,10 @@ h4, h5, h6 { font-size: 1rem; line-height: 1.3rem; }
 	height: 100%;
 	overflow: auto;
 	box-sizing: border-box;
-	padding: 2rem 0;
+	padding: 3.2rem 0;
+}
+#toolbox .wrap {
+	height: 100%;
 }
 #toolbox .extra-info {
 	position: absolute;
@@ -205,6 +209,7 @@ h4, h5, h6 { font-size: 1rem; line-height: 1.3rem; }
 	position: relative;
 	display: flex;
 	justify-content: center;
+	box-sizing: border-box;
 	padding-bottom: .5rem;
 }
 .tool .copied {

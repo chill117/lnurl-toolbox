@@ -178,4 +178,38 @@ $(function() {
 		addTagEvent(tag, message, null, 'error');
 	};
 
+	var resizeQrCodeElements = function() {
+		var maxSizes = [];
+		$qrcodes = $('#toolbox .qrcode');
+		$qrcodes.each(function() {
+			var $qrcode = $(this);
+			var $tool = $qrcode.parents('.tool').first();
+			var childrenHeight = 0;
+			$tool.children(':not(.tool-status)').each(function() {
+				childrenHeight += $(this).outerHeight();
+			});
+			var constraints = [
+				$tool.innerWidth() * .8,
+				$(window).height() * .8,
+			];
+			if ($(window).width() > 1024) {
+				constraints.push($('#toolbox .wrap').innerHeight() - childrenHeight);
+			}
+			maxSizes.push(Math.min.apply(Math, constraints));
+		});
+		var maxSize = Math.min.apply(Math, maxSizes);
+		$qrcodes.width(maxSize).height(maxSize);
+	};
+
+	resizeQrCodeElements();
+
+	$(window).on('resize', _.debounce(function() {
+		resizeQrCodeElements();
+		$('#toolbox .qrcode').each(function() {
+			var $qrcode = $(this);
+			var data = $qrcode.attr('data-encoded');
+			app.utils.renderQrCode($qrcode, data);
+		})
+	}, 150));
+
 });
