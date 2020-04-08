@@ -10,8 +10,8 @@ $(function() {
 		}
 	});
 
-	$('.tool .qrcode').on('click', function(event) {
-		var $qrcode = $(event.target);
+	$('.tool .copy').on('click', function(event) {
+		var $qrcode = $(event.target).parents('.tool').first().find('.qrcode');
 		var encoded = $qrcode.attr('data-encoded');
 		if (encoded) {
 			app.utils.copyToClipboard(encoded, function onSuccess() {
@@ -90,12 +90,13 @@ $(function() {
 					if (encoded) {
 						var $qrcode = $tool.find('.qrcode');
 						var data = 'lightning:' + encoded;
+						$qrcode.attr('href', data);
 						app.utils.renderQrCode($qrcode, data, function(error) {
 							if (error) {
 								showTagError(tag, error);
 							} else {
 								$qrcode.addClass('loaded');
-								$qrcode.attr('data-encoded', encoded).attr('title', 'Click to copy');
+								$qrcode.attr('data-encoded', encoded);
 							}
 						});
 					} else {
@@ -125,6 +126,7 @@ $(function() {
 		$.post('/lnurl', data)
 			.done(function(encoded) {
 				var data = 'lightning:' + encoded;
+				$qrcode.attr('href', data);
 				app.utils.renderQrCode($qrcode, data, function(error) {
 					if (error) return done(error);
 					$qrcode.attr('data-encoded', encoded).attr('title', 'Click to copy');
