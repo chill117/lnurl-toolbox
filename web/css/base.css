@@ -254,13 +254,21 @@ h4, h5, h6 { font-size: 1rem; line-height: 1.3rem; }
 	width: 100%;
 	color: #fff;
 	font-size: .8rem;
+	line-height: 1.2rem;
 	text-align: center;
 	background: #666;
 	border-radius: 1rem;
 	box-sizing: border-box;
-	padding: 0 .5rem;
+	padding: .3rem;
 	opacity: 0;
 	transition: opacity .3s ease-out;
+}
+.tool .event.info {
+	height: 1.2rem;
+	padding: 0 .3rem;
+}
+.tool .event.error {
+	cursor: initial;
 }
 .tool .event + .event {
 	margin-top: .1rem;
@@ -290,6 +298,9 @@ h4, h5, h6 { font-size: 1rem; line-height: 1.3rem; }
 }
 .tool .event.success {
 	background: green;
+}
+.tool a.qrcode {
+	border: none;
 }
 .tool .qrcode {
 	position: relative;
@@ -322,9 +333,11 @@ h4, h5, h6 { font-size: 1rem; line-height: 1.3rem; }
 }
 .tool .qrcode.loaded {
 	cursor: pointer;
+}
+.tool a.qrcode.loaded {
 	border: .2rem dashed transparent;
 }
-.tool .qrcode.loaded:hover {
+.tool a.qrcode.loaded:hover {
 	border-color: rgba(206, 94, 92, .8);
 }
 .tool .qrcode.loaded:before {

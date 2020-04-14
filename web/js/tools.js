@@ -61,17 +61,20 @@ $(function() {
 				$qrcode.removeClass('loading').removeClass('loaded');
 				var message = eventName;
 				var data = messageData.data || {};
-				var successOrError;
+				var className;
 				switch (eventName) {
 					case 'request:failed':
-						successOrError = 'error';
+						className = 'info error';
 						break;
 					case 'request:processed':
 					case 'login':
-						successOrError = 'success';
+						className = 'info success';
+						break;
+					default:
+						className = 'info';
 						break;
 				}
-				addTagEvent(tag, message, data, successOrError);
+				addTagEvent(tag, message, data, className);
 			} catch (error) {
 				console.log(error);
 			}
@@ -121,7 +124,12 @@ $(function() {
 			$qrcode.removeClass('loading').addClass('loaded');
 			if (error) showTagError(tag, error);
 		};
-		$qrcode.removeClass('loaded').addClass('loading');
+		$qrcode
+			.removeClass('loaded')
+			.addClass('loading')
+			.attr('href', '#')
+			.attr('data-encoded', '')
+			.css({ 'background-image': 'none' });
 		clearTagEvents(tag);
 		$.post('/lnurl', data)
 			.done(function(encoded) {
@@ -144,13 +152,13 @@ $(function() {
 		$events.empty();
 	};
 
-	var addTagEvent = function(tag, message, eventData, successOrError) {
+	var addTagEvent = function(tag, message, eventData, extraClassName) {
 		var $tool = $('.tool.' + tag);
 		var $events = $tool.find('.events');
-		var $newEvent = $('<div/>')
-			.addClass('event')
-			.addClass(successOrError)
-			.text(message);
+		var $newEvent = $('<div/>').addClass('event').text(message);
+		if (extraClassName) {
+			$newEvent.addClass(extraClassName);
+		}
 		if (eventData) {
 			$newEvent.attr('data-event', JSON.stringify(eventData));
 		}
