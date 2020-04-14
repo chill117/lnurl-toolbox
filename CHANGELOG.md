@@ -1,5 +1,8 @@
 # Changelog
 
+* TBD:
+  * Minor styling and HTML fixes
+  * Link to LNURL spec
 * v1.1.0:
   * Mobile styling improvements
   * Click QR code not open lightning-enabled app
