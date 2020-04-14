@@ -1,6 +1,6 @@
 # Changelog
 
-* TBD:
+* v1.1.1:
   * Minor styling and HTML fixes
   * Link to LNURL spec
 * v1.1.0:
