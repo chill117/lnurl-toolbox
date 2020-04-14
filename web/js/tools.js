@@ -129,7 +129,7 @@ $(function() {
 				$qrcode.attr('href', data);
 				app.utils.renderQrCode($qrcode, data, function(error) {
 					if (error) return done(error);
-					$qrcode.attr('data-encoded', encoded).attr('title', 'Click to copy');
+					$qrcode.attr('data-encoded', encoded);
 					done();
 				});
 			})
