@@ -77,7 +77,7 @@ You can use this method if you already have a virtual private server (VPS) with 
 
 Login to your VPS and add a few required configurations to its SSH config file:
 ```bash
-cat > /etc/ssh/sshd_config << EOL
+cat >> /etc/ssh/sshd_config << EOL
     RSAAuthentication yes
     PubkeyAuthentication yes
     GatewayPorts yes
