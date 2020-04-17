@@ -13,7 +13,7 @@ const config = require('./config.json');
 const mockLightningBackend = (function() {
 	const { backend } = config.lnurl.lightning;
 	const options = config.lnurl.lightning.config;
-	const MockLightningNode = require(path.join(__dirname, 'mocks', backend));
+	const MockLightningNode = require(path.join(__dirname, 'node_modules', 'lnurl', 'mocks', 'lightning', backend));
 	return new MockLightningNode(options, function(error) {
 		if (error) {
 			console.error(error);

@@ -3,6 +3,7 @@
   "version": "1.1.1",
   "description": "A set of browser-based tools to help developers test and integrate LNURL",
   "main": "server.js",
+  "private": true,
   "scripts": {
     "build": "make all",
     "server": "node ./server.js",
@@ -43,7 +44,7 @@
     "express-session": "1.17.0",
     "handlebars": "4.7.6",
     "jquery": "3.4.1",
-    "lnurl": "0.5.1",
+    "lnurl": "0.5.2",
     "open-sans-fontface": "https://github.com/chill117/open-sans/archive/1.4.2.tar.gz",
     "qrcode": "1.4.4",
     "secp256k1": "3.8.0",
