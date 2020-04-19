@@ -1,5 +1,7 @@
 # Changelog
 
+* v1.1.2:
+  * Mock LN node now created via lnurl
 * v1.1.1:
   * Minor styling and HTML fixes
   * Link to LNURL spec

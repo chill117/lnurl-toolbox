@@ -1,6 +1,6 @@
 {
   "name": "lnurl-toolbox",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A set of browser-based tools to help developers test and integrate LNURL",
   "main": "server.js",
   "private": true,
