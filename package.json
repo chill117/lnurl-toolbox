@@ -37,17 +37,14 @@
   },
   "homepage": "https://github.com/chill117/lnurl-toolbox",
   "dependencies": {
-    "async": "3.2.0",
     "body-parser": "1.19.0",
-    "bolt11": "1.2.7",
     "express": "4.17.1",
     "express-session": "1.17.0",
     "handlebars": "4.7.6",
     "jquery": "3.4.1",
-    "lnurl": "0.5.2",
+    "lnurl": "0.6.0",
     "open-sans-fontface": "https://github.com/chill117/open-sans/archive/1.4.2.tar.gz",
     "qrcode": "1.4.4",
-    "secp256k1": "3.8.0",
     "underscore": "1.10.2",
     "ws": "7.2.3"
   }

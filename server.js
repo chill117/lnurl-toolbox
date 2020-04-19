@@ -8,27 +8,11 @@ const path = require('path');
 const session = require('express-session');
 const WebSocket = require('ws');
 
-const config = require('./config.json');
-
-const mockLightningBackend = (function() {
-	const { backend } = config.lnurl.lightning;
-	const options = config.lnurl.lightning.config;
-	const MockLightningNode = require(path.join(__dirname, 'node_modules', 'lnurl', 'mocks', 'lightning', backend));
-	return new MockLightningNode(options, function(error) {
-		if (error) {
-			console.error(error);
-		} else {
-			console.log(`Mock ${backend} is ready`);
-		}
-	});
-})();
-
-config.lnurl.lightning.config = mockLightningBackend.config;
-
 /*
 	For a list of possible options, see:
 	https://github.com/chill117/lnurl-node#options-for-createserver-method
 */
+const config = require('./config.json');
 const lnurlServer = lnurl.createServer(config.lnurl);
 
 lnurlServer.once('listening', function() {
