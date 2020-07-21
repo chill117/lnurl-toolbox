@@ -39,13 +39,13 @@
   "dependencies": {
     "body-parser": "1.19.0",
     "express": "4.17.1",
-    "express-session": "1.17.0",
+    "express-session": "1.17.1",
     "handlebars": "4.7.6",
     "jquery": "3.5.1",
-    "lnurl": "0.6.0",
+    "lnurl": "0.7.1",
     "open-sans-fontface": "https://github.com/chill117/open-sans/archive/1.4.2.tar.gz",
     "qrcode": "1.4.4",
     "underscore": "1.10.2",
-    "ws": "7.2.3"
+    "ws": "7.3.1"
   }
 }
