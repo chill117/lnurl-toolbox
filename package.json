@@ -42,10 +42,10 @@
     "express-session": "1.17.1",
     "handlebars": "4.7.6",
     "jquery": "3.5.1",
-    "lnurl": "0.7.1",
+    "lnurl": "0.10.0",
     "open-sans-fontface": "https://github.com/chill117/open-sans/archive/1.4.2.tar.gz",
     "qrcode": "1.4.4",
-    "underscore": "1.10.2",
+    "underscore": "1.11.0",
     "ws": "7.3.1"
   }
 }
