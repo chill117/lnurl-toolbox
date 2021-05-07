@@ -45,7 +45,7 @@
     "lnurl": "0.10.0",
     "open-sans-fontface": "https://github.com/chill117/open-sans/archive/1.4.2.tar.gz",
     "qrcode": "1.4.4",
-    "underscore": "1.11.0",
+    "underscore": "1.12.1",
     "ws": "7.3.1"
   }
 }
