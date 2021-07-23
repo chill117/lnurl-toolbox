@@ -2,19 +2,9 @@ var app = app || {};
 
 $(function() {
 
-	var config;
-	try {
-		var $config = $('#config');
-		if ($config.length > 0) {
-			config = JSON.parse($config.html());
-		}
-	} catch (error) {
-		// console.log(error);
-	}
-
-	config = _.defaults(config || {}, {
-		uriSchemaPrefix: '',
-	});
+	var $genericControls = {
+		uriSchemaPrefix: $(':input[name="uriSchemaPrefix"]'),
+	};
 
 	$('.tool form').on('submit', function(event) {
 		event.preventDefault();
@@ -105,17 +95,7 @@ $(function() {
 				if (tag) {
 					var encoded = lnurls[tag] || null;
 					if (encoded) {
-						var $qrcode = $tool.find('.qrcode');
-						var data = config.uriSchemaPrefix + encoded;
-						$qrcode.attr('href', data);
-						app.utils.renderQrCode($qrcode, data, function(error) {
-							if (error) {
-								showTagError(tag, error);
-							} else {
-								$qrcode.addClass('loaded');
-								$qrcode.attr('data-encoded', encoded);
-							}
-						});
+						updateToolUrl($tool, encoded);
 					} else {
 						generateNewLnurl(tag);
 					}
@@ -147,7 +127,8 @@ $(function() {
 		clearTagEvents(tag);
 		$.post('/lnurl', data)
 			.done(function(encoded) {
-				var data = config.uriSchemaPrefix + encoded;
+				var uriSchemaPrefix = $genericControls.uriSchemaPrefix.val();
+				var data = uriSchemaPrefix + encoded;
 				$qrcode.attr('href', data);
 				app.utils.renderQrCode($qrcode, data, function(error) {
 					if (error) return done(error);
@@ -225,6 +206,24 @@ $(function() {
 		$qrcodes.width(maxSize).height(maxSize);
 	};
 
+	var updateToolUrl = function($tool, encoded) {
+		var $qrcode = $tool.find('.qrcode');
+		if (!encoded) {
+			encoded = $qrcode.attr('data-encoded');
+		}
+		var uriSchemaPrefix = $genericControls.uriSchemaPrefix.val();
+		var data = uriSchemaPrefix + encoded;
+		$qrcode.attr('href', data);
+		app.utils.renderQrCode($qrcode, data, function(error) {
+			if (error) {
+				showTagError(tag, error);
+			} else {
+				$qrcode.addClass('loaded');
+				$qrcode.attr('data-encoded', encoded);
+			}
+		});
+	};
+
 	resizeQrCodeElements();
 
 	$(window).on('resize', _.debounce(function() {
@@ -235,5 +234,14 @@ $(function() {
 			app.utils.renderQrCode($qrcode, data);
 		})
 	}, 150));
+
+	$genericControls.uriSchemaPrefix.on('change', function(event) {
+		var uriSchemaPrefix = $genericControls.uriSchemaPrefix.val();
+		var $tools = $('.tool');
+		$tools.each(function() {
+			var $tool = $(this);
+			updateToolUrl($tool);
+		});
+	});
 
 });

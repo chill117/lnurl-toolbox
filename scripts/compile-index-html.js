@@ -19,8 +19,7 @@ const outputFilePath = path.resolve(outputFile);
 const compiledHtml = (function() {
 	const html = fs.readFileSync(inputFilePath).toString();
 	const template = Handlebars.compile(html);
-	const configJson = JSON.stringify(_.pick(config, 'uriSchemaPrefix'));
-	const data = _.extend({}, pkg, { configJson });
+	const data = _.extend({}, pkg, _.pick(config, 'uriSchemaPrefix'));
 	return template(data);
 })();
 
