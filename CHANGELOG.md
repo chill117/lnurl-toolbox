@@ -1,6 +1,6 @@
 # Changelog
 
-* TBD:
+* v1.2.0:
   * More useful events shown during LNURL protocol flow
   * Changed configuration method to environment variables
   * Upgraded dependencies
