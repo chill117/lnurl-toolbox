@@ -7,9 +7,7 @@ A web interface with tools for testing and integrating LNURL.
 * [Running Your Own Instance](#running-your-own-instance)
 	* [Requirements](#requirements)
 	* [Setup](#setup)
-	* [Remote Tunneling](#remote-tunneling)
-		* [Using SSH and a VPS](#using-ssh-and-a-vps)
-		* [Using ngrok](#using-ngrok)
+	* [Configuration Options](#configuration-options)
 * [Changelog](#changelog)
 * [License](#license)
 * [Funding](#funding)
@@ -21,7 +19,7 @@ A web interface with tools for testing and integrating LNURL.
 * Tweak parameters used for each subprotocol
 * Requests and relevant events are displayed as they happen
 * Inspect request/event details (HTTP headers, query string, URL, etc)
-* Doesn't require an LN node (everything is mocked)
+* Doesn't require a Lightning Network node (everything is mocked)
 
 
 ## Live Demo
@@ -54,139 +52,31 @@ Run the toolbox services:
 ```bash
 npm start
 ```
-Do you see something like the following in your terminal?
-```
-Mock c-lightning JSON-RPC API listening at /path/to/lnurl-toolbox/c-lightning.sock
-Mock c-lightning listening for TCP connections at 127.0.0.1:9735
-Mock c-lightning is ready
-Web server listening at http://localhost:8080
-Lnurl server listening at http://localhost:3000
-```
-Great! Now open a browser to [localhost:8080](http://localhost:8080/) to view the web interface.
 
-Note that this setup is only accessible on your local machine. If you want to be able to do some manual testing from a separate device like a phone, then you will need to expose the services to the internet - see [Remote Tunneling](#remote-tunneling).
-
-
-### Remote Tunneling
-
-For the toolbox to be useful in debugging your app, it will need to be accessible by that app. In most setups, this means that the toolbox must be accessible to the public internet. To solve this, you can setup remote tunneling to your localhost. Here are described a couple different ways to achieve this.
-
-#### Using SSH and a VPS
-
-You can use this method if you already have a virtual private server (VPS) with its own static, public IP address.
-
-Login to your VPS and add a few required configurations to its SSH config file:
+To run the server while printing debug info:
 ```bash
-cat >> /etc/ssh/sshd_config << EOL
-    RSAAuthentication yes
-    PubkeyAuthentication yes
-    GatewayPorts yes
-    AllowTcpForwarding yes
-    ClientAliveInterval 60
-    EOL
+DEBUG=lnurl* npm start
 ```
-Restart the SSH service:
+
+The server runs with default configurations when none have been provided. To customize your server configuration, create a `.env` file in the root of the project directory. You can start by copying the `example.env` file:
 ```bash
-service ssh restart
+cp example.env .env
 ```
-On your local machine, run the following command to open a reverse-proxy tunnel:
-```bash
-ssh -v -N -T -R 3000:localhost:3000 VPS_HOST_OR_IP_ADDRESS
-```
-This will forward all traffic to port 3000 to the VPS thru the SSH tunnel to port 3000 on your local machine.
-
-Set the value of `lnurl.url` in your config.json file as follows:
-```js
-{
-	"lnurl": {
-		// ..
-		"url": "http://VPS_IP_ADDRESS:3000",
-		// ..
-	}
-}
-```
-Be sure to replace `VPS_IP_ADDRESS` with the actual IP address of your server.
-
-In a second terminal window on your local machine:
-```bash
-ssh -v -N -T -R 9735:localhost:9735 VPS_HOST_OR_IP_ADDRESS
-```
-This will do the same as above but for port 9735.
-
-Set the value of `lnurl.lightning.config.hostname` in your config.json file as follows:
-```js
-{
-	"lnurl": {
-		// ..
-		"lightning": {
-			"backend": "c-lightning",
-			"config": {
-				"host": "127.0.0.1",
-				"port": 9735,
-				"hostname": "VPS_IP_ADDRESS:9735"
-			}
-		}
-		// ..
-	}
-}
-```
-Be sure to replace `VPS_IP_ADDRESS` with the actual IP address of your server.
+Please refer to [Configuration Options](#configuration-options) for details about how to configure your server.
 
 
-#### Using ngrok
+### Configuration Options
 
-If you don't have access to your own VPS, [ngrok](https://ngrok.com/) is another possible solution. Follow the installation instructions on the project's website before continuing here. Once you have ngrok installed, you can continue with the instructions here.
-
-To create an HTTP tunnel to the toolbox's LNURL server:
-```bash
-ngrok http -region eu 3000
-```
-You should see something like the following:
-
-![](https://github.com/chill117/lnurl-toolbox/blob/master/images/ngrok-screen-https-tunnel.png)
-
-Copy and paste the HTTPS tunnel URL to `lnurl.url` in your config.json file. Here's an example:
-```js
-{
-	"lnurl": {
-		// ..
-		"url": "https://0fe4d56b.eu.ngrok.io",
-		// ..
-	}
-}
-```
-Note that each time you open a tunnel with ngrok, your tunnel URL changes. 
-
-A second tunnel is needed to forward TCP traffic to the local mock c-lightning:
-```bash
-ngrok tcp 9735
-```
-This will create a [TCP tunnel](https://ngrok.com/docs#tcp) to localhost:9735. This is needed to mock the peer connection needed for incoming channel requests; see [BOLT #1: Base Protocol](https://github.com/lightningnetwork/lightning-rfc/blob/master/01-messaging.md#bolt-1-base-protocol) for more details. Note that you will be required to sign-up for an account with ngrok.com in order to obtain an authorization token.
-
-Copy and paste the TCP tunnel hostname to `lnurl.lightning.config.hostname` in your config.json file. Here's an example:
-```js
-{
-	"lnurl": {
-		// ..
-		"lightning": {
-			"backend": "c-lightning",
-			"config": {
-				"host": "127.0.0.1",
-				"port": 9735,
-				"hostname": "0.tcp.ngrok.io:11756"
-			}
-		}
-		// ..
-	}
-}
-```
-
-Stop the toolbox if it's currently running - press <kbd>Ctrl</kbd> + <kbd>C</kbd>.
-
-Start the toolbox:
-```bash
-npm start
-```
+Below is a list of configuration options:
+* `LNURL_TOOLBOX_HOST` - The host on which the LNURL HTTP server listener will be bound.
+* `LNURL_TOOLBOX_PORT` - The port on which the LNURL HTTP server will listen.
+* `LNURL_TOOLBOX_URL` - The publicly accessible URL of the LNURL server. This should __not__ include the endpoint. Example - `https://your-domain.com`
+* `LNURL_TOOLBOX_ENDPOINT` - The path of the LNURL route. The default is `/u`.
+* `LNURL_TOOLBOX_WEB_HOST` - The host on which the web HTTP server listener will be bound.
+* `LNURL_TOOLBOX_WEB_PORT` - The port on which the web HTTP server will listen.
+* `LNURL_TOOLBOX_WEB_URL` - The publicly accessible URL of the web server. This should __not__ include the endpoint. Example - `https://your-domain.com`
+* `LNURL_TOOLBOX_WEB_SESSION` - Options that are passed when creating an instance of [express-session](https://github.com/expressjs/session#options) middleware.
+* `LNURL_TOOLBOX_URI_SCHEMA_PREFIX` - The URI schema prefix that is pre-prended to encoded LNURLs. E.g. "lightning:", "LIGHTNING:", or "" (empty-string).
 
 
 ## Changelog

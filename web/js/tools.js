@@ -2,6 +2,20 @@ var app = app || {};
 
 $(function() {
 
+	var config;
+	try {
+		var $config = $('#config');
+		if ($config.length > 0) {
+			config = JSON.parse($config.html());
+		}
+	} catch (error) {
+		// console.log(error);
+	}
+
+	config = _.defaults(config || {}, {
+		uriSchemaPrefix: '',
+	});
+
 	$('.tool form').on('submit', function(event) {
 		event.preventDefault();
 		var tag = $(event.target).find(':input[name=tag]').val() || null;
@@ -39,18 +53,18 @@ $(function() {
 			return new WebSocket(url);
 		})();
 		ws.onerror = function(error) {
-			console.log('WebSocket ERROR', error);
+			// console.log('WebSocket ERROR', error);
 		};
 		ws.onopen = function() {
-			console.log('WebSocket connection established');
+			// console.log('WebSocket connection established');
 		};
 		ws.onclose = function() {
-			console.log('WebSocket connection closed');
+			// console.log('WebSocket connection closed');
 			ws = app.ws = null;
 		};
 		ws.onmessage = function(message) {
 			try {
-				console.log('WebSocket data received:', message.data);
+				// console.log('WebSocket data received:', message.data);
 				var messageData = JSON.parse(message.data);
 				var eventName = messageData.event || null;
 				if (!eventName) return;
@@ -76,11 +90,11 @@ $(function() {
 				}
 				addTagEvent(tag, message, data, className);
 			} catch (error) {
-				console.log(error);
+				// console.log(error);
 			}
 		};
 	} catch (error) {
-		console.log(error);
+		// console.log(error);
 	}
 
 	$.get('/lnurls')
@@ -92,7 +106,7 @@ $(function() {
 					var encoded = lnurls[tag] || null;
 					if (encoded) {
 						var $qrcode = $tool.find('.qrcode');
-						var data = 'lightning:' + encoded;
+						var data = config.uriSchemaPrefix + encoded;
 						$qrcode.attr('href', data);
 						app.utils.renderQrCode($qrcode, data, function(error) {
 							if (error) {
@@ -133,7 +147,7 @@ $(function() {
 		clearTagEvents(tag);
 		$.post('/lnurl', data)
 			.done(function(encoded) {
-				var data = 'lightning:' + encoded;
+				var data = config.uriSchemaPrefix + encoded;
 				$qrcode.attr('href', data);
 				app.utils.renderQrCode($qrcode, data, function(error) {
 					if (error) return done(error);

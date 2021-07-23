@@ -7,6 +7,7 @@ if (!inputFile || !outputFile) {
 }
 
 const _ = require('underscore');
+const config = require('../config');
 const Handlebars = require('handlebars');
 const fs = require('fs');
 const path = require('path');
@@ -18,7 +19,8 @@ const outputFilePath = path.resolve(outputFile);
 const compiledHtml = (function() {
 	const html = fs.readFileSync(inputFilePath).toString();
 	const template = Handlebars.compile(html);
-	const data = _.extend({}, pkg);
+	const configJson = JSON.stringify(_.pick(config, 'uriSchemaPrefix'));
+	const data = _.extend({}, pkg, { configJson });
 	return template(data);
 })();
 

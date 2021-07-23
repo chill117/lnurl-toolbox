@@ -4,7 +4,6 @@ app.utils = (function() {
 
 	var renderQrCode = function($target, data, done) {
 		// https://github.com/soldair/node-qrcode#usage
-		console.log('renderQrCode', $target.width())
 		var options = {
 			width: $target.width(),
 			margin: 1,

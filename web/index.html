@@ -12,11 +12,11 @@
 		<div id="header">
 			<div class="wrap">
 				<h1>{{name}}</h1>
-				<p>Use the tools below to test your app's <a href="https://github.com/btcontract/lnurl-rfc">LNURL</a> integration</p>
+				<p>Use the tools below to test your app's <a href="https://github.com/fiatjaf/lnurl-rfc">LNURL</a> integration</p>
 			</div>
 		</div>
 		<div id="toolbox">
-			<p class="extra-info">This service uses a mock Lightning Network node - no funds will be transacted</p>
+			<p class="extra-info">Lightning Network interactions are mocked - no funds will be transacted</p>
 			<div class="wrap">
 				<div class="tool channelRequest" data-tag="channelRequest">
 					<h2>Channel</h2>
@@ -143,6 +143,8 @@
 			<div id="message-content"></div>
 		</div>
 	</div>
+
+	<script id="config" type="text/json">{{{configJson}}}</script>
 
 	<script src="/js/all.js"></script>
 

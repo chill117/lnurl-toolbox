@@ -38,14 +38,16 @@
   "homepage": "https://github.com/chill117/lnurl-toolbox",
   "dependencies": {
     "body-parser": "1.19.0",
+    "debug": "4.3.2",
+    "dotenv": "10.0.0",
     "express": "4.17.1",
-    "express-session": "1.17.1",
+    "express-session": "1.17.2",
     "handlebars": "4.7.7",
     "jquery": "3.6.0",
-    "lnurl": "0.12.2",
+    "lnurl": "0.18.0",
     "open-sans-fontface": "https://github.com/chill117/open-sans/archive/1.4.2.tar.gz",
     "qrcode": "1.4.4",
     "underscore": "1.13.1",
-    "ws": "7.4.5"
+    "ws": "7.5.3"
   }
 }

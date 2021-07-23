@@ -1,9 +1,16 @@
 const _ = require('underscore');
 const bodyParser = require('body-parser');
+const debug = {
+	error: require('debug')('lnurl-toolbox:error'),
+	info: require('debug')('lnurl-toolbox:info'),
+}
 const express = require('express');
 const http = require('http');
 const lnurl = require('lnurl');
-const { HttpError } = lnurl.Server;
+const { createHash, HttpError } = require('lnurl/lib');
+const Mock = {
+	clightning: require('./lib/mocks/c-lightning'),
+};
 const path = require('path');
 const session = require('express-session');
 const WebSocket = require('ws');
@@ -12,19 +19,10 @@ const WebSocket = require('ws');
 	For a list of possible options, see:
 	https://github.com/chill117/lnurl-node#options-for-createserver-method
 */
-const config = require('./config.json');
+const config = require('./config');
 const lnurlServer = lnurl.createServer(config.lnurl);
 
-lnurlServer.once('listening', function() {
-	const { host, port, protocol } = lnurlServer.options;
-	console.log(`Lnurl server listening at ${protocol}://${host}:${port}`);
-});
-
 const webApp = express();
-
-if (!config.web.session.secret) {
-	config.web.session.secret = lnurlServer.generateRandomKey(32, 'base64');
-}
 
 // Sessions middleware - to separate requests by session and provide real-time updates.
 const sessionParser = session(config.web.session);
@@ -77,7 +75,7 @@ webApp.post('/lnurl',
 		if (!lastLnurl) return next();
 		const { hash } = lastLnurl;
 		map.session.delete(hash);
-		lnurlServer.markUsedUrl(hash).then(function() {
+		lnurlServer.useUrl(hash).then(function() {
 			next();
 		}).catch(next);
 	},
@@ -85,8 +83,9 @@ webApp.post('/lnurl',
 		const { tag } = req.body;
 		const params = _.pick(req.body, tagParams[tag]);
 		lnurlServer.generateNewUrl(tag, params).then(result => {
-			const { encoded, secret, url } = result;
-			const hash = lnurlServer.hash(secret);
+			let { encoded, secret, url } = result;
+			const hash = createHash(secret);
+			encoded = encoded.toUpperCase();
 			req.session.lnurls[tag] = { encoded, hash };
 			map.session.set(hash, req.session);
 			res.send(encoded);
@@ -100,7 +99,7 @@ webApp.use('*', function(req, res, next) {
 
 webApp.use(function(error, req, res, next) {
 	if (!error.status) {
-		console.error(error);
+		debug.error(error);
 		error = new Error('Unexpected error');
 		error.status = 500;
 	}
@@ -131,12 +130,11 @@ webApp.wss.on('connection', function(ws, req) {
 
 webApp.server.listen(config.web.port, config.web.host, function() {
 	const { host, port } = config.web;
-	console.log(`Web server listening at http://${host}:${port}`);
+	debug.info(`Web server listening at http://${host}:${port}`);
 });
 
 _.each([
 	'request:received',
-	'request:processing',
 	'request:processed',
 	'request:failed',
 	'login',
@@ -159,22 +157,48 @@ _.each([
 			}
 			ws.send(JSON.stringify({ data, event, tag }));
 		} catch (error) {
-			console.error(error);
+			debug.error(error);
 		}
 	});
 });
 
+_.chain(tagParams).keys().each(tag => {
+	_.each([
+		`${tag}:action:failed`,
+		`${tag}:action:processed`,
+	], event => {
+		lnurlServer.on(event, data => {
+			const { secret } = data;
+			const hash = createHash(secret);
+			const session = map.session.get(hash);
+			if (!session) return;
+			const ws = map.ws.get(session.id);
+			if (!ws) return;
+			ws.send(JSON.stringify({ data, event, tag }));
+		});
+	});
+});
+
+const clightningMock = new Mock.clightning(config.mock.clightning);
+
+clightningMock.interfaces.events.on('jsonRpc:message', message => {
+	const data = { message };
+	const event = 'mock:c-lightning:message';
+	const tag = 'channelRequest';
+	ws.send(JSON.stringify({ data, event, tag }));
+});
+
 process.on('uncaughtException', (error, origin) => {
-	console.error(error);
+	debug.error(error);
 });
 
 process.on('beforeExit', (code) => {
 	try {
 		webApp.server.close();
 		lnurlServer.close();
-		mockLightningBackend.close();
+		clightningMock && clightningMock.close();
 	} catch (error) {
-		console.error(error);
+		debug.error(error);
 	}
 	process.exit(code);
 });
