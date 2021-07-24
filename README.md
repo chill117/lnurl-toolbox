@@ -77,6 +77,9 @@ Below is a list of configuration options:
 * `LNURL_TOOLBOX_WEB_URL` - The publicly accessible URL of the web server. This should __not__ include the endpoint. Example - `https://your-domain.com`
 * `LNURL_TOOLBOX_WEB_SESSION` - Options that are passed when creating an instance of [express-session](https://github.com/expressjs/session#options) middleware.
 * `LNURL_TOOLBOX_URI_SCHEMA_PREFIX` - The URI schema prefix that is pre-prended to encoded LNURLs. E.g. "lightning:", "LIGHTNING:", or "" (empty-string).
+* `LNURL_TOOLBOX_MOCK_CLIGHTNING_HOST` - The host on which the mock c-lightning TCP socket server will be bound.
+* `LNURL_TOOLBOX_MOCK_CLIGHTNING_PORT` - The port which the mock c-lightning TCP socket server will listen.
+* `LNURL_TOOLBOX_MOCK_CLIGHTNING_HOSTNAME` - The hostname used as part of the mock c-lightning's node URI.
 
 
 ## Changelog
