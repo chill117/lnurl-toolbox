@@ -36,8 +36,7 @@ clean\
 fonts\
 images
 
-all: $(PUBLIC)/index.html\
-$(PUBLIC_ALL_CSS)\
+all: $(PUBLIC_ALL_CSS)\
 $(PUBLIC_ALL_JS)\
 fonts\
 images
@@ -45,10 +44,6 @@ images
 clean:
 	# Delete build and output files:
 	rm -rf $(BUILD) $(PUBLIC)
-
-$(PUBLIC)/index.html: package.json $(WEB)/index.html
-	mkdir -p $$(dirname $@)
-	node $(SCRIPTS)/compile-index-html.js $(WEB)/index.html $@
 
 fonts:
 	mkdir -p $(PUBLIC)/fonts/OpenSans

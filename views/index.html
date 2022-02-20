@@ -1,0 +1,144 @@
+<div id="content">
+	<div id="header">
+		<div class="wrap">
+			<h1>lnurl-toolbox</h1>
+			<p>Use the tools below to test your app's <a href="https://github.com/fiatjaf/lnurl-rfc">LNURL</a> integration</p>
+		</div>
+	</div>
+	<div id="toolbox">
+		<div class="toolbox-extra">
+			<p class="warn">Lightning Network interactions are mocked - no funds will be transacted</p>
+			<div class="form generic-controls">
+				<form>
+					<div class="form-row">
+						<label class="form-label">URI Schema Prefix: <input class="form-input" type="text" name="uriSchemaPrefix" value="{{uriSchemaPrefix}}"></label>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="wrap">
+			<div class="tool channelRequest" data-tag="channelRequest">
+				<h2>Channel</h2>
+				<p class="tool-description">request an incoming channel</p>
+				<div class="tool-status">
+					<a class="qrcode"></a>
+					<div class="events"></div>
+				</div>
+				<div class="form">
+					<form action="#">
+						<div class="form-row has-units">
+							<label class="form-label" for="channelRequest-localAmt">localAmt</label>
+							<input class="form-input" id="channelRequest-localAmt" name="localAmt" type="text" value="200">
+							<span class="form-units">sat</span>
+						</div>
+						<div class="form-row has-units">
+							<label class="form-label" for="channelRequest-pushAmt">pushAmt</label>
+							<input class="form-input" id="channelRequest-pushAmt" name="pushAmt" type="text" value="100">
+							<span class="form-units">sat</span>
+						</div>
+						<div class="form-buttons">
+							<input type="hidden" name="tag" value="channelRequest">
+							<input class="button form-button" type="submit" value="Generate">
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="tool withdrawRequest" data-tag="withdrawRequest">
+				<h2>Withdraw</h2>
+				<p class="tool-description">withdraw funds from a service</p>
+				<div class="tool-status">
+					<a class="qrcode"></a>
+					<div class="events"></div>
+				</div>
+				<div class="form">
+					<form action="#">
+						<div class="form-row has-units">
+							<label class="form-label" for="withdrawRequest-minWithdrawable">minWithdrawable</label>
+							<input class="form-input" id="withdrawRequest-minWithdrawable" name="minWithdrawable" type="text" value="10000">
+							<span class="form-units">msat</span>
+						</div>
+						<div class="form-row has-units">
+							<label class="form-label" for="withdrawRequest-maxWithdrawable">maxWithdrawable</label>
+							<input class="form-input" id="withdrawRequest-maxWithdrawable" name="maxWithdrawable" type="text" value="20000">
+							<span class="form-units">msat</span>
+						</div>
+						<div class="form-row">
+							<label class="form-label" for="withdrawRequest-defaultDescription">defaultDescription</label>
+							<input class="form-input" id="withdrawRequest-defaultDescription" name="defaultDescription" type="text" value="lnurl-toolbox: withdrawRequest">
+						</div>
+						<div class="form-buttons">
+							<input type="hidden" name="tag" value="withdrawRequest">
+							<input class="button form-button" type="submit" value="Generate">
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="tool payRequest" data-tag="payRequest">
+				<h2>Pay</h2>
+				<p class="tool-description">pay to a static QR code</p>
+				<div class="tool-status">
+					<a class="qrcode"></a>
+					<div class="events"></div>
+				</div>
+				<div class="form">
+					<form action="#">
+						<div class="form-row has-units">
+							<label class="form-label" for="payRequest-minSendable">minSendable</label>
+							<input class="form-input" id="payRequest-minSendable" name="minSendable" type="text" value="10000">
+							<span class="form-units">msat</span>
+						</div>
+						<div class="form-row has-units">
+							<label class="form-label" for="payRequest-maxSendable">maxSendable</label>
+							<input class="form-input" id="payRequest-maxSendable" name="maxSendable" type="text" value="20000">
+							<span class="form-units">msat</span>
+						</div>
+						<div class="form-row">
+							<label class="form-label" for="payRequest-metadata">metadata</label>
+							<input class="form-input" id="payRequest-metadata" name="metadata" type="text" value="[[&#x22;text/plain&#x22;,&#x22;lnurl-toolbox: payRequest&#x22;]]">
+						</div>
+						<div class="form-buttons">
+							<input type="hidden" name="tag" value="payRequest">
+							<input class="button form-button" type="submit" value="Generate">
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="tool login" data-tag="login">
+				<h2>Auth</h2>
+				<p class="tool-description">login/authorize a service</p>
+				<div class="tool-status">
+					<a class="qrcode"></a>
+					<div class="events"></div>
+				</div>
+				<div class="form">
+					<form action="#">
+						<div class="form-buttons">
+							<input type="hidden" name="tag" value="login">
+							<input class="button form-button" type="submit" value="Generate">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="footer">
+		<div class="wrap">
+			<div class="links">
+				<span>Created by  <a href="https://degreesofzero.com/">chill1</a></span>
+			</div>
+			<div class="links">
+				<span><a href="https://degreesofzero.com/donate.html?project=lnurl-toolbox">Donate</a></span>
+				<span class="link-spacer">-</span>
+				<a class="link github" href="https://github.com/chill117/lnurl-toolbox">Source Code</a>
+				<span class="link-spacer">-</span>
+				<a class="link report-problem" href="https://github.com/chill117/lnurl-toolbox/issues">Report a Problem</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="message">
+	<div id="message-inner">
+		<div id="message-content"></div>
+	</div>
+</div>

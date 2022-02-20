@@ -19,6 +19,7 @@ let config = {
 		port: parseInt(process.env.LNURL_TOOLBOX_WEB_PORT || 8080),
 		url: process.env.LNURL_TOOLBOX_WEB_URL || null,
 		session: JSON.parse(process.env.LNURL_TOOLBOX_WEB_SESSION || '{"secret":"","resave":true,"saveUninitialized":false,"proxy":false,"cookie":{"httpOnly":true,"expires":false,"path":"/","sameSite":true,"secure":false}}'),
+		headExtraHtml: process.env.LNURL_TOOLBOX_WEB_HEAD_EXTRA_HTML || null,
 	},
 	uriSchemaPrefix: process.env.LNURL_TOOLBOX_URI_SCHEMA_PREFIX || 'LIGHTNING:',
 	mock: {
