@@ -1,5 +1,9 @@
 # Changelog
 
+* v1.3.0:
+  * Upgraded dependencies
+  * Lightning and store configurations can now be passed via environment variables
+  * URI schema prefix is now configurable in the front-end
 * v1.2.0:
   * More useful events shown during LNURL protocol flow
   * Changed configuration method to environment variables

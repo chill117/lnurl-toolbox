@@ -11,14 +11,8 @@ let config = {
 		port: parseInt(process.env.LNURL_TOOLBOX_PORT || 3000),
 		url: process.env.LNURL_TOOLBOX_URL || null,
 		endpoint: process.env.LNURL_TOOLBOX_ENDPOINT || '/u',
-		lightning: {
-			backend: 'dummy',
-			config: {},
-		},
-		store: {
-			backend: 'memory',
-			config: { noWarning: true },
-		},
+		lightning: JSON.parse(process.env.LNURL_TOOLBOX_LIGHTNING || '{"backend":"dummy","config":{}}'),
+		store: JSON.parse(process.env.LNURL_TOOLBOX_STORE || '{"backend":"memory","config":{}}'),
 	},
 	web: {
 		host: process.env.LNURL_TOOLBOX_WEB_HOST || 'localhost',
